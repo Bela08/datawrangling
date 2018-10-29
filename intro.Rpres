@@ -12,19 +12,23 @@ Projects in R
 
 ![](img/kitchen.jpg)
 
+Comfortable but hard to reproduce
+
 ***
 
 ![](img/lunchbox.jpg) 
 
+Portable, organized, minimalistic
+
 Why use projects?
 ========================================================
 
-Code is usually meant to be run more than once. Projects help to maintain good workflow habits:
+Projects help to maintain good workflow habits:
 
-- **Using fresh R processes** - each project comes with its own environment; restart R regularly to run scripts in _clean_ R environments. Storing variables in your environment can lead to problems later on
-- **Portability** - projects have clearly defined base directories; use relative paths to keep projects self-contained and portable -- your collaborators (including future-you!) will thank you
+- **Fresh R processes** - each project comes with its own environment
+- **Portability** - projects have clearly defined base directories; use relative paths to keep projects portable 
 
-Extra reading: [workflow versus script](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/)
+Extra reading: [workflow versus script](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/), [basic care and feeding of data in R](http://stat545.com/block006_care-feeding-data.html)
 
 GitHub
 ========================================================
@@ -35,6 +39,7 @@ GitHub is a code storage/sharing platform. Use it to:
 - use packages not on CRAN (`devtools::install_github("account_name/repo_name")`)
 - share/store analyses and functions
 - browse past versions of code
+- host web pages
 
 Cloning GitHub repositories 
 ========================================================
@@ -55,3 +60,210 @@ If you _have_ git installed and ready to go on RStudio (excellent instructions [
 (2) In RStudio: `File --> New Project --> Version Control --> Git`. The repository URL should be in the form: `https://github.com/YOUR_ACCOUNT/REPO_NAME`.
 
 
+Tibbles
+========================================================
+
+>Tibbles are data.frames that are lazy and surly: **they do less** (i.e. they don't change variable names or types, and don't do partial matching) and **complain more** (e.g. when a variable does not exist). This forces you to confront problems earlier, typically leading to cleaner, more expressive code.
+
+https://tibble.tidyverse.org/
+
+Tibble print nicely!
+========================================================
+
+```{r echo = FALSE}
+library(tidyverse)
+as_tibble(iris[,1:4])
+```
+
+Tidy data
+========================================================
+
+>If I had one thing to tell biologists learning bioinformatics, it would be “write code for humans, write data for computers”.
+>
+>— Vince Buffalo (@vsbuffalo) July 20, 2013
+
+===
+
+![](img/untidy-lotr.PNG)
+
+https://github.com/jennybc/lotr-tidy/blob/master/01-intro.md
+
+===
+
+```{r echo = FALSE}
+tribble(
+    ~Film, ~Gender, ~Race, ~Words, 
+    "The Fellowship Of The Ring", "Female", "Elf", "1229", 
+    "The Fellowship Of The Ring", "Male", "Elf", "971", 
+    "The Two Towers", "Female", "Elf", "331", 
+    "The Two Towers", "Male", "Elf", "513", 
+    "The Return Of The King", "Male", "Hobbit", "2673", 
+    "The Return Of The King", "Female", "Man", "268")
+```
+
+Code should be pleasant to read
+===
+
+![](https://media.giphy.com/media/OWyYSmZT43pxm/giphy.gif)
+
+insert bad script
+
+===
+
+![](https://www.tidyverse.org/images/tidyverse-default.png)
+
+Tidyverse
+===
+
+- shared syntax & conventions
+- tibble in, tibble out
+
+select()
+===
+
+![](img/xls-select.PNG)
+
+filter()
+===
+![](img/xls-filter.PNG)
+
+arrange()
+===
+![](img/xls-arrange.PNG)
+
+mutate()
+===
+![](img/xls-mutate.PNG)
+
+group_by(), summarize()
+===
+![](img/xls-summary.PNG)
+
+===
+
+```{r}
+library(tidyverse)
+data(starwars)
+```
+
+Pipe ("then")
+===
+
+![](https://upload.wikimedia.org/wikipedia/en/b/b9/MagrittePipe.jpg)
+
+***
+
+Data in, data out
+
+```{r eval = FALSE}
+data %>% 
+    do_something() %>% 
+    do_another_thing() 
+```
+
+===
+
+```{r}
+starwars %>% 
+    select(name, height, mass, species)
+```
+
+===
+
+```{r}
+starwars %>% 
+    select(name, height, mass, species) %>% 
+    mutate(bmi = mass/(0.01*height)^2)
+```
+
+===
+
+```{r}
+starwars %>% 
+    select(name, height, mass, species) %>% 
+    mutate(bmi = mass/(0.01*height)^2) %>% 
+    arrange(desc(bmi))
+```
+
+===
+
+```{r}
+starwars %>% 
+    select(name, height, mass, species) %>% 
+    mutate(bmi = mass/(0.01*height)^2) %>% 
+    filter(species == "Droid")
+```
+
+===
+
+```{r}
+starwars %>% 
+    select(name, height, mass, species) %>% 
+    mutate(bmi = mass/(0.01*height)^2) %>% 
+    filter(species == "Droid", height < 100)
+```
+
+===
+
+```{r}
+starwars %>% 
+    select(name, height, mass, species) %>% 
+    group_by(species) %>% 
+    summarize(count = n(),
+              avg_mass = mean(mass, na.rm = TRUE),
+              max_height = max(height, na.rm = TRUE)) %>% 
+    arrange(desc(count))
+```
+
+Your turn
+===
+
+- What is the most common eye color?
+- Who is the youngest human?
+- Which homeworld has the most characters?
+
+What else can you do?
+===
+
+- conditional functions: `*_at`, `*_if`, `*_all`
+- `rename` columns
+- `lead` & `lag` for time series
+- `join` & `bind` data frames
+- `count` & `tally` shortcuts for group_by and summarize
+
+gather() & spread()
+===
+
+![](https://datacarpentry.org/R-ecology-lesson/img/spread_data_R.png)
+
+https://datacarpentry.org/R-ecology-lesson/03-dplyr.html
+
+Community matrix!
+===
+
+```{r}
+starwars %>% 
+    select(name, films) %>% 
+    unnest(films) %>% 
+    mutate(present = 1) %>% 
+    spread(name, present, fill = 0)
+```
+
+Take home messages
+===
+
+- your most important collaborator = future you!
+- keep code readable and re-runnable
+
+![](https://media.giphy.com/media/Vccpm1O9gV1g4/giphy.gif)
+
+Your turn!
+===
+
+https://github.com/rfordatascience/tidytuesday/tree/master/data/2018-10-23  
+Short link: https://bit.ly/2CQMvho
+
+Resources
+===
+
+https://github.com/gadenbuie/tidyexplain
