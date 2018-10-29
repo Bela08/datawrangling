@@ -70,9 +70,9 @@ https://tibble.tidyverse.org/
 Tibble print nicely!
 ========================================================
 
-```{r echo = FALSE}
+```{r eval = FALSE}
 library(tidyverse)
-as_tibble(iris[,1:4])
+as_tibble(iris)
 ```
 
 Tidy data
@@ -91,7 +91,7 @@ https://github.com/jennybc/lotr-tidy/blob/master/01-intro.md
 ===
 
 ```{r echo = FALSE}
-tribble(
+tibble::tribble(
     ~Film, ~Gender, ~Race, ~Words, 
     "The Fellowship Of The Ring", "Female", "Elf", "1229", 
     "The Fellowship Of The Ring", "Male", "Elf", "971", 
@@ -139,13 +139,6 @@ group_by(), summarize()
 ===
 ![](img/xls-summary.PNG)
 
-===
-
-```{r}
-library(tidyverse)
-data(starwars)
-```
-
 Pipe ("then")
 ===
 
@@ -159,6 +152,13 @@ Data in, data out
 data %>% 
     do_something() %>% 
     do_another_thing() 
+```
+
+Star wars
+===
+```{r}
+library(tidyverse)
+data(starwars)
 ```
 
 ===

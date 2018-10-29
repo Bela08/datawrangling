@@ -71,21 +71,9 @@ Tibble print nicely!
 ========================================================
 
 
-```
-# A tibble: 150 x 4
-   Sepal.Length Sepal.Width Petal.Length Petal.Width
-          <dbl>       <dbl>        <dbl>       <dbl>
- 1          5.1         3.5          1.4         0.2
- 2          4.9         3            1.4         0.2
- 3          4.7         3.2          1.3         0.2
- 4          4.6         3.1          1.5         0.2
- 5          5           3.6          1.4         0.2
- 6          5.4         3.9          1.7         0.4
- 7          4.6         3.4          1.4         0.3
- 8          5           3.4          1.5         0.2
- 9          4.4         2.9          1.4         0.2
-10          4.9         3.1          1.5         0.1
-# ... with 140 more rows
+```r
+library(tidyverse)
+as_tibble(iris)
 ```
 
 Tidy data
@@ -154,14 +142,6 @@ group_by(), summarize()
 ===
 ![](img/xls-summary.PNG)
 
-===
-
-
-```r
-library(tidyverse)
-data(starwars)
-```
-
 Pipe ("then")
 ===
 
@@ -176,6 +156,14 @@ Data in, data out
 data %>% 
     do_something() %>% 
     do_another_thing() 
+```
+
+Star wars
+===
+
+```r
+library(tidyverse)
+data(starwars)
 ```
 
 ===
