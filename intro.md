@@ -26,9 +26,9 @@ Why use projects?
 Projects help to maintain good workflow habits:
 
 - **Fresh R processes** - each project comes with its own environment
-- **Portability** - projects have clearly defined base directories; use relative paths to keep projects portable 
+- **Portability** - projects have clearly defined base directories; makes it easy to [use relative paths](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/) 
 
-Extra reading: [workflow versus script](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/), [basic care and feeding of data in R](http://stat545.com/block006_care-feeding-data.html)
+Extra reading: [basic care and feeding of data in R](http://stat545.com/block006_care-feeding-data.html)
 
 GitHub
 ========================================================
@@ -59,19 +59,26 @@ If you _have_ git installed and ready to go on RStudio (excellent instructions [
 
 (2) In RStudio: `File --> New Project --> Version Control --> Git`. The repository URL should be in the form: `https://github.com/YOUR_ACCOUNT/REPO_NAME`.
 
+===
+![](img/github-basics.png)
 
 Tibbles
 ========================================================
 
 >Tibbles are data.frames that are lazy and surly: **they do less** (i.e. they don't change variable names or types, and don't do partial matching) and **complain more** (e.g. when a variable does not exist). This forces you to confront problems earlier, typically leading to cleaner, more expressive code.
 
+  
 https://tibble.tidyverse.org/
 
-Tibble print nicely!
+Tibbles print nicely!
 ========================================================
 
 
 ```r
+iris
+
+#versus
+
 library(tidyverse)
 as_tibble(iris)
 ```
@@ -92,24 +99,24 @@ https://github.com/jennybc/lotr-tidy/blob/master/01-intro.md
 ===
 
 
-```
-# A tibble: 6 x 4
-  Film                       Gender Race   Words
-  <chr>                      <chr>  <chr>  <chr>
-1 The Fellowship Of The Ring Female Elf    1229 
-2 The Fellowship Of The Ring Male   Elf    971  
-3 The Two Towers             Female Elf    331  
-4 The Two Towers             Male   Elf    513  
-5 The Return Of The King     Male   Hobbit 2673 
-6 The Return Of The King     Female Man    268  
-```
+|Film                       |Gender |Race   | Words|
+|:--------------------------|:------|:------|-----:|
+|The Fellowship Of The Ring |Female |Elf    |  1229|
+|The Fellowship Of The Ring |Male   |Elf    |   971|
+|The Fellowship Of The Ring |Female |Hobbit |    14|
+|The Fellowship Of The Ring |Male   |Hobbit |  3644|
+|The Fellowship Of The Ring |Female |Man    |     0|
+|The Fellowship Of The Ring |Male   |Man    |  1995|
+|The Two Towers             |Female |Elf    |   331|
+|The Two Towers             |Male   |Elf    |   513|
+|The Two Towers             |Female |Hobbit |     0|
+|The Two Towers             |Male   |Hobbit |  2463|
 
 Code should be pleasant to read
 ===
 
 ![](https://media.giphy.com/media/OWyYSmZT43pxm/giphy.gif)
 
-insert bad script
 
 ===
 
@@ -153,6 +160,10 @@ Data in, data out
 
 
 ```r
+do_another_thing(do_something(data))
+
+# versus
+
 data %>% 
     do_something() %>% 
     do_another_thing() 
@@ -401,7 +412,3 @@ Your turn!
 https://github.com/rfordatascience/tidytuesday/tree/master/data/2018-10-23  
 Short link: https://bit.ly/2CQMvho
 
-Resources
-===
-
-https://github.com/gadenbuie/tidyexplain
