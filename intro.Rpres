@@ -124,8 +124,25 @@ lotr <- tibble::tribble(
 knitr::kable(head(lotr, 10))
 ```
 
-Code should be pleasant to read
+Does your code resemble this?
 ===
+
+
+
+```{r eval=FALSE}
+starwars_human_subset <- subset(starwars,species == "Human")
+starwars_human_subset$bmi <- starwars_human_subset$mass / (0.01 * starwars_human_subset$height)^2
+fattest_human_from_each_planet <- aggregate(bmi ~ homeworld,data = starwars_human_subset, FUN = "max")
+fattest_human_from_each_planet <- merge(x=fattest_human_from_each_planet,y=starwars_human_subset,by = c("homeworld","bmi"))
+fattest_human_from_each_planet <- fattest_human_from_each_planet [,1:5]
+
+```
+
+![](https://jamesskemp.github.io/gits-matrix/images/green6.jpg)
+
+
+Code should be pleasant to read
+====
 
 ![](https://media.giphy.com/media/OWyYSmZT43pxm/giphy.gif)
 
@@ -268,11 +285,24 @@ Community matrix!
 ===
 
 ```{r}
-starwars %>% 
-    select(name, films) %>% 
-    unnest(films) %>% 
-    mutate(present = 1) %>% 
-    spread(name, present, fill = 0)
+sw <- starwars %>% 
+  select(name, films) %>% 
+  unnest(films) %>% 
+  mutate(present = 1) %>% 
+  spread(name, present, fill = 0) %>% 
+  print()
+
+```
+
+PCA!
+===
+
+```{r}
+sw <- as.data.frame(sw)
+rownames(sw)<-sw[,1] 
+sw <- sw[,-1]
+pca_log <- prcomp(sw)
+biplot(pca_log,cex=1.08)
 ```
 
 Take home messages

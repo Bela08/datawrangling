@@ -112,8 +112,25 @@ https://github.com/jennybc/lotr-tidy/blob/master/01-intro.md
 |The Two Towers             |Female |Hobbit |     0|
 |The Two Towers             |Male   |Hobbit |  2463|
 
-Code should be pleasant to read
+Does your code resemble this?
 ===
+
+
+
+
+```r
+starwars_human_subset <- subset(starwars,species == "Human")
+starwars_human_subset$bmi <- starwars_human_subset$mass / (0.01 * starwars_human_subset$height)^2
+fattest_human_from_each_planet <- aggregate(bmi ~ homeworld,data = starwars_human_subset, FUN = "max")
+fattest_human_from_each_planet <- merge(x=fattest_human_from_each_planet,y=starwars_human_subset,by = c("homeworld","bmi"))
+fattest_human_from_each_planet <- fattest_human_from_each_planet [,1:5]
+```
+
+![](https://jamesskemp.github.io/gits-matrix/images/green6.jpg)
+
+
+Code should be pleasant to read
+====
 
 ![](https://media.giphy.com/media/OWyYSmZT43pxm/giphy.gif)
 
@@ -352,11 +369,12 @@ Community matrix!
 
 
 ```r
-starwars %>% 
-    select(name, films) %>% 
-    unnest(films) %>% 
-    mutate(present = 1) %>% 
-    spread(name, present, fill = 0)
+sw <- starwars %>% 
+  select(name, films) %>% 
+  unnest(films) %>% 
+  mutate(present = 1) %>% 
+  spread(name, present, fill = 0) %>% 
+  print()
 ```
 
 ```
@@ -374,29 +392,43 @@ starwars %>%
 #   Offee` <dbl>, BB8 <dbl>, `Ben Quadinaros` <dbl>, `Beru Whitesun
 #   lars` <dbl>, `Bib Fortuna` <dbl>, `Biggs Darklighter` <dbl>, `Boba
 #   Fett` <dbl>, Bossk <dbl>, `C-3PO` <dbl>, `Captain Phasma` <dbl>,
-#   Chewbacca <dbl>, `Cliegg Lars` <dbl>, Cordé <dbl>, `Darth Maul` <dbl>,
-#   `Darth Vader` <dbl>, `Dexter Jettster` <dbl>, Dooku <dbl>,
-#   Dormé <dbl>, `Dud Bolt` <dbl>, `Eeth Koth` <dbl>, `Finis
-#   Valorum` <dbl>, Finn <dbl>, Gasgano <dbl>, Greedo <dbl>, `Gregar
-#   Typho` <dbl>, Grievous <dbl>, `Han Solo` <dbl>, `IG-88` <dbl>, `Jabba
-#   Desilijic Tiure` <dbl>, `Jango Fett` <dbl>, `Jar Jar Binks` <dbl>,
-#   `Jek Tono Porkins` <dbl>, `Jocasta Nu` <dbl>, `Ki-Adi-Mundi` <dbl>,
-#   `Kit Fisto` <dbl>, `Lama Su` <dbl>, `Lando Calrissian` <dbl>, `Leia
-#   Organa` <dbl>, Lobot <dbl>, `Luke Skywalker` <dbl>, `Luminara
-#   Unduli` <dbl>, `Mace Windu` <dbl>, `Mas Amedda` <dbl>, `Mon
-#   Mothma` <dbl>, `Nien Nunb` <dbl>, `Nute Gunray` <dbl>, `Obi-Wan
-#   Kenobi` <dbl>, `Owen Lars` <dbl>, `Padmé Amidala` <dbl>,
-#   Palpatine <dbl>, `Plo Koon` <dbl>, `Poe Dameron` <dbl>, `Poggle the
-#   Lesser` <dbl>, `Quarsh Panaka` <dbl>, `Qui-Gon Jinn` <dbl>,
-#   `R2-D2` <dbl>, `R4-P17` <dbl>, `R5-D4` <dbl>, `Ratts Tyerell` <dbl>,
-#   `Raymus Antilles` <dbl>, Rey <dbl>, `Ric Olié` <dbl>, `Roos
-#   Tarpals` <dbl>, `Rugor Nass` <dbl>, `Saesee Tiin` <dbl>, `San
-#   Hill` <dbl>, Sebulba <dbl>, `Shaak Ti` <dbl>, `Shmi Skywalker` <dbl>,
-#   `Sly Moore` <dbl>, Tarfful <dbl>, `Taun We` <dbl>, `Tion Medon` <dbl>,
-#   `Wat Tambor` <dbl>, Watto <dbl>, `Wedge Antilles` <dbl>, `Wicket
-#   Systri Warrick` <dbl>, `Wilhuff Tarkin` <dbl>, `Yarael Poof` <dbl>,
-#   Yoda <dbl>, `Zam Wesell` <dbl>
+#   Chewbacca <dbl>, `Cliegg Lars` <dbl>, `Cord<U+00E9>` <dbl>, `Darth
+#   Maul` <dbl>, `Darth Vader` <dbl>, `Dexter Jettster` <dbl>,
+#   Dooku <dbl>, `Dorm<U+00E9>` <dbl>, `Dud Bolt` <dbl>, `Eeth Koth` <dbl>,
+#   `Finis Valorum` <dbl>, Finn <dbl>, Gasgano <dbl>, Greedo <dbl>,
+#   `Gregar Typho` <dbl>, Grievous <dbl>, `Han Solo` <dbl>, `IG-88` <dbl>,
+#   `Jabba Desilijic Tiure` <dbl>, `Jango Fett` <dbl>, `Jar Jar
+#   Binks` <dbl>, `Jek Tono Porkins` <dbl>, `Jocasta Nu` <dbl>,
+#   `Ki-Adi-Mundi` <dbl>, `Kit Fisto` <dbl>, `Lama Su` <dbl>, `Lando
+#   Calrissian` <dbl>, `Leia Organa` <dbl>, Lobot <dbl>, `Luke
+#   Skywalker` <dbl>, `Luminara Unduli` <dbl>, `Mace Windu` <dbl>, `Mas
+#   Amedda` <dbl>, `Mon Mothma` <dbl>, `Nien Nunb` <dbl>, `Nute
+#   Gunray` <dbl>, `Obi-Wan Kenobi` <dbl>, `Owen Lars` <dbl>, `Padm<U+00E9>
+#   Amidala` <dbl>, Palpatine <dbl>, `Plo Koon` <dbl>, `Poe
+#   Dameron` <dbl>, `Poggle the Lesser` <dbl>, `Quarsh Panaka` <dbl>,
+#   `Qui-Gon Jinn` <dbl>, `R2-D2` <dbl>, `R4-P17` <dbl>, `R5-D4` <dbl>,
+#   `Ratts Tyerell` <dbl>, `Raymus Antilles` <dbl>, Rey <dbl>, `Ric
+#   Oli<U+00E9>` <dbl>, `Roos Tarpals` <dbl>, `Rugor Nass` <dbl>, `Saesee
+#   Tiin` <dbl>, `San Hill` <dbl>, Sebulba <dbl>, `Shaak Ti` <dbl>, `Shmi
+#   Skywalker` <dbl>, `Sly Moore` <dbl>, Tarfful <dbl>, `Taun We` <dbl>,
+#   `Tion Medon` <dbl>, `Wat Tambor` <dbl>, Watto <dbl>, `Wedge
+#   Antilles` <dbl>, `Wicket Systri Warrick` <dbl>, `Wilhuff
+#   Tarkin` <dbl>, `Yarael Poof` <dbl>, Yoda <dbl>, `Zam Wesell` <dbl>
 ```
+
+PCA!
+===
+
+
+```r
+sw <- as.data.frame(sw)
+rownames(sw)<-sw[,1] 
+sw <- sw[,-1]
+pca_log <- prcomp(sw)
+biplot(pca_log,cex=1.08)
+```
+
+![plot of chunk unnamed-chunk-13](intro-figure/unnamed-chunk-13-1.png)
 
 Take home messages
 ===
